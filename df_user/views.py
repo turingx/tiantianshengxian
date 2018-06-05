@@ -36,3 +36,28 @@ def register_handle(request):
 
 def login(request):
     return render(request, "user_template/login.html")
+
+
+def login_handle(request):
+    uname = request.POST['username']
+    upwd = request.POST['pwd']
+
+    #使用sha1加密密码
+    encry = hashlib.sha1()
+    encry.update(upwd)
+    encry_pwd = encry.hexdigest()
+
+    sel_uname_num = UserInfo.objects.filter(uname=uname).count()
+    if sel_uname_num != 0:
+        sel_pwd = UserInfo.objects.filter(uname=uname)[0].upwd
+        if sel_pwd == encry_pwd:
+            return HttpResponse("登录成功")
+        else:
+            return HttpResponse("用户名或密码错误")
+    else:
+        return HttpResponse("用户名或密码错误")
+
+
+
+
+
