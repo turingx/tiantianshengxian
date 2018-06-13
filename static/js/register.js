@@ -45,18 +45,11 @@ $(function(){
 			$('#user_name').next().html('请输入5-20个字符的用户名')
 			$('#user_name').next().show();
 			error_name = true;
-		}else
+		}
+		else
 		{
-			$.get('/user/register_exist/?uname='+$('#user_name').val(),function (data) {
-				if(data.count == 1){
-					$('#user_name').next().html('用户名已存在').show();
-					error_name = true;
-				}else{
-					$('#user_name').next().hide();
-					error_name = false;
-				}
-            });
-
+			$('#user_name').next().hide();
+			error_name = false;
 		}
 	}
 
@@ -72,7 +65,7 @@ $(function(){
 		{
 			$('#pwd').next().hide();
 			error_password = false;
-		}		
+		}
 	}
 
 
@@ -90,8 +83,8 @@ $(function(){
 		{
 			$('#cpwd').next().hide();
 			error_check_password = false;
-		}		
-		
+		}
+
 	}
 
 	function check_email(){
@@ -112,39 +105,12 @@ $(function(){
 	}
 
 
-	$('#btn').on('click',function(e) {
-		e.preventDefault();
-		console.log(checkForm());
-		if(checkForm()){
-			var obj={};
-			obj.user_name=$("#user_name").val();
-			obj.pwd=$("#pwd").val();
-			obj.cpwd=$("#cpwd").val();
-			obj.email=$("#email").val();
-			obj.allow=$("#allow").val();
-			$.ajax({
-				async:false,
-				method:"post",
-				dataType:"json",
-				data:obj,/*表单的数据*/
-				url:"register_handle",
-				success:function(){   //success:function(data){
-					console.log();     //console.log(data);
-				},
-				error:function(){
-
-				}
-			})
-		}else{
-			alert("提交失败！")
-		}
-
-	});
-	function checkForm(){
+	$('#reg_form').submit(function() {
 		check_user_name();
 		check_pwd();
 		check_cpwd();
 		check_email();
+
 		if(error_name == false && error_password == false && error_check_password == false && error_email == false && error_check == false)
 		{
 			return true;
@@ -153,7 +119,8 @@ $(function(){
 		{
 			return false;
 		}
-	}
+
+	});
 
 
 

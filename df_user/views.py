@@ -15,9 +15,21 @@ def register_handle(request):
     ucpwd = request.POST['cpwd']
     uemail = request.POST['email']
     uallow = request.POST['allow']
-    
+
+
     if upwd != ucpwd:
         return HttpResponse("两次输入的密码不一致")
+    '''
+    if uname == None:
+        context = {'temp':"用户名为空"}
+        return render(request, "user_template/register.html", context)
+    if upwd == None:
+        context = {'temp': "密码为空"}
+        return render(request, "user_template/register.html",  context)
+    if uemail == None:
+        context = {'temp': "邮箱为空为空"}
+        return render(request, "user_template/register.html",  context)
+'''
 
     #使用sha1加密密码
     encry = hashlib.sha1()
@@ -29,8 +41,8 @@ def register_handle(request):
     userInfo.upwd = encry_pwd
     userInfo.uemail = uemail
     userInfo.save()
-
-    return HttpResponse("注册成功")
+    return redirect('/user/login')
+    #return HttpResponse("注册成功")
 
 def register_exist(request):
     username = request.GET['user_name']
@@ -57,15 +69,28 @@ def login_handle(request):
     if sel_uname_num != 0:
         sel_pwd = UserInfo.objects.filter(uname=uname)[0].upwd
         if sel_pwd == encry_pwd:
+            request.session['sess_uname'] = uname
             return redirect("/user/user_center")
+
         else:
             return HttpResponse("用户名或密码错误")
     else:
         return HttpResponse("用户名或密码错误")
 
 def user_center(request):
-    return render(request, "user_template/user_center_info.html")
+    name = request.session['sess_uname']
+    print(name)
+    user_email =  UserInfo.objects.filter(uname=name)[0].uemail
+    user_address =  UserInfo.objects.filter(uname=name)[0].uaddress
+    context = {'name': name, 'uemail':user_email, 'uaddress':user_address}
+    return render(request, "user_template/user_center_info.html", context)
 
+def order(request):
+    return render(request, "user_template/user_center_order.html")
+
+def site(request):
+    return render(request, "user_template/user_center_site.html")
+   # return HttpResponse('a')
 
 
 
