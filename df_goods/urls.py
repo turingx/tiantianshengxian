@@ -3,6 +3,8 @@ from df_goods import views
 
 urlpatterns = [
     url(r'^cart$', views.cart),
+    #url(r'^test$', views.test),
     url(r'^', views.index),
+
 ]
 
