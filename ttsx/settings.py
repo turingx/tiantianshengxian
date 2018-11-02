@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'ttsx',
 	'HOST':'127.0.0.1',
 	'USER':'root',
-	'PASSWORD':'123456',
+	'PASSWORD':'876543219',
 	'PORT':'3306',
     }
 }
