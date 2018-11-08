@@ -16,7 +16,7 @@ def register_handle(request):
     uemail = request.POST['email']
     uallow = request.POST['allow']
 
-
+    print(uemail)
     if upwd != ucpwd:
         return HttpResponse("两次输入的密码不一致")
     '''
