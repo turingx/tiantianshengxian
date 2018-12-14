@@ -1,5 +1,6 @@
 #coding=utf-8
 from django.shortcuts import render,redirect
+from django.http import JsonResponse
 from django.http import HttpResponse,HttpResponseRedirect
 import hashlib
 from df_user.models import UserInfo
@@ -16,7 +17,7 @@ def register_handle(request):
     uemail = request.POST['email']
     uallow = request.POST['allow']
 
-    print(uemail)
+ #   print(uemail)
     if upwd != ucpwd:
         return HttpResponse("两次输入的密码不一致")
     '''
@@ -45,10 +46,11 @@ def register_handle(request):
     #return HttpResponse("注册成功")
 
 def register_exist(request):
-    username = request.GET['user_name']
+    username = request.GET['user_name']	
     print(username)
     count = UserInfo.objects.filter(uname=username).count()
-    return JsonRespones({'count':count})
+    print(count)
+    #return JsonRespones({'count':count})
 
 
 

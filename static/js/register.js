@@ -46,12 +46,23 @@ $(function(){
 			$('#user_name').next().show();
 			error_name = true;
 		}
-		else
-		{
-			$('#user_name').next().hide();
-			error_name = false;
-		}
-	}
+	        else {
+            // 发送ajax请求验证用户名是否已经存在
+            var user = $('#user_name').val();
+            $.get("/user/register_exist/",{user_name:user}, function (data) {
+                if (data.count != 0) {
+                    $('#user_name').next().html("用户名已经存在..");
+                    $('#user_name').next().show();
+                    error_name = true;
+                    console.log(error_name)
+                } else {
+                    $('#user_name').next().hide();
+                    error_name = false;
+                }
+            });
+
+        }
+       }
 
 	function check_pwd(){
 		var len = $('#pwd').val().length;
@@ -105,7 +116,7 @@ $(function(){
 	}
 
 
-	$('#reg_form').submit(function() {
+	$('#form_id').submit(function() {
 		check_user_name();
 		check_pwd();
 		check_cpwd();
