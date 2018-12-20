@@ -49,7 +49,7 @@ $(function(){
 	        else {
             // 发送ajax请求验证用户名是否已经存在
             var user = $('#user_name').val();
-            $.get("/user/register_exist/",{user_name:user}, function (data) {
+            $.get("/user/register_exist",{user:user}, function (data) {
                 if (data.count != 0) {
                     $('#user_name').next().html("用户名已经存在..");
                     $('#user_name').next().show();

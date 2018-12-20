@@ -46,11 +46,14 @@ def register_handle(request):
     #return HttpResponse("注册成功")
 
 def register_exist(request):
-    username = request.GET['user_name']	
+    username = request.GET['user']	
+    #username = request.POST.get('user')
     print(username)
     count = UserInfo.objects.filter(uname=username).count()
     print(count)
-    #return JsonRespones({'count':count})
+    print JsonRespones({"count":count})
+    return HttpResponse({"count":count})
+    #return JsonResponse({"a":"a"})
 
 
 
